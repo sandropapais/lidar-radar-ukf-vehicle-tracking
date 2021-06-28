@@ -26,14 +26,14 @@ int main(int argc, char** argv)
 	int time_us = 0;
 
 	double egoVelocity = 25;
-
+	
 	while (frame_count < (frame_per_sec*sec_interval))
 	{
 		viewer->removeAllPointClouds();
 		viewer->removeAllShapes();
 
 		//stepHighway(egoVelocity,time_us, frame_per_sec, viewer);
-		highway.stepHighway(egoVelocity,time_us, frame_per_sec, viewer);
+		highway.stepHighway(egoVelocity, time_us, frame_per_sec, viewer);
 		viewer->spinOnce(1000/frame_per_sec);
 		frame_count++;
 		time_us = 1000000*frame_count/frame_per_sec;

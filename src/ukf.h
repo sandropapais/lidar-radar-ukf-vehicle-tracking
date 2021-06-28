@@ -95,6 +95,14 @@ class UKF {
 
   // Sigma point spreading parameter
   double lambda_;
+
+  // Normalized innovation squared (NIS)
+  double nis_radar_;
+  double nis_lidar_;
+
+  // Debug and output print flag
+  bool debug_flg;
+  bool print_flg;
 };
 
 #endif  // UKF_H

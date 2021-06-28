@@ -4,6 +4,7 @@
 #include "render/render.h"
 #include "sensors/lidar.h"
 #include "tools.h"
+#include <iostream>
 
 class Highway
 {
@@ -16,6 +17,7 @@ public:
 	std::vector<double> rmseThreshold = {0.30,0.16,0.95,0.70};
 	std::vector<double> rmseFailLog = {0.0,0.0,0.0,0.0};
 	Lidar* lidar;
+	bool print_flg;
 	
 	// Parameters 
 	// --------------------------------
@@ -103,6 +105,15 @@ public:
 		car1.render(viewer);
 		car2.render(viewer);
 		car3.render(viewer);
+
+		// write results
+		print_flg = true;
+		if(print_flg){
+			FILE *fpt;
+			fpt = fopen("est_out.csv", "w");
+		    fprintf(fpt, "car_ID, time_s, x_est, y_est, v_est, yaw_est, yawdot_est, x_var, y_var, v_var, yaw_var, yawdot_var, x_tru, y_tru, vx_tru, vy_tru\n");
+			fclose(fpt);
+		}
 	}
 	
 	void stepHighway(double egoVelocity, long long timestamp, int frame_per_sec, pcl::visualization::PCLVisualizer::Ptr& viewer)
@@ -114,7 +125,6 @@ public:
 			renderPointCloud(viewer, trafficCloud, "trafficCloud", Color((float)184/256,(float)223/256,(float)252/256));
 		}
 		
-
 		// render highway environment with poles
 		renderHighway(egoVelocity*timestamp/1e6, viewer);
 		egoCar.render(viewer);
@@ -132,7 +142,7 @@ public:
 				tools.ground_truth.push_back(gt);
 				tools.lidarSense(traffic[i], viewer, timestamp, visualize_lidar);
 				tools.radarSense(traffic[i], egoCar, viewer, timestamp, visualize_radar);
-				tools.ukfResults(traffic[i],viewer, projectedTime, projectedSteps);
+				tools.ukfResults(traffic[i], viewer, projectedTime, projectedSteps);
 				VectorXd estimate(4);
 				double v  = traffic[i].ukf.x_(2);
     			double yaw = traffic[i].ukf.x_(3);
@@ -140,7 +150,17 @@ public:
     			double v2 = sin(yaw)*v;
 				estimate << traffic[i].ukf.x_[0], traffic[i].ukf.x_[1], v1, v2;
 				tools.estimations.push_back(estimate);
-	
+
+				if(print_flg){
+					FILE *fpt;
+					fpt = fopen("est_out.csv", "a");
+			    	fprintf(fpt, "%d, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f\n", i, timestamp/1e6, 
+						traffic[i].ukf.x_(0), traffic[i].ukf.x_(1), traffic[i].ukf.x_(2), traffic[i].ukf.x_(3), traffic[i].ukf.x_[4],
+						traffic[i].ukf.P_(0,0), traffic[i].ukf.P_(1,1), traffic[i].ukf.P_(2,2), traffic[i].ukf.P_(3,3), traffic[i].ukf.P_(4,4),
+						gt[0], gt[1], gt[2], gt[3]);
+					fclose(fpt);
+				}
+
 			}
 		}
 		viewer->addText("Accuracy - RMSE:", 30, 300, 20, 1, 1, 1, "rmse");
