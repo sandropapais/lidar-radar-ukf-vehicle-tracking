@@ -172,7 +172,8 @@ public:
 
 		if(timestamp > 1.0e6)
 		{
-
+			rmseFailLog = {0.0,0.0,0.0,0.0};
+			pass = true;
 			if(rmse[0] > rmseThreshold[0])
 			{
 				rmseFailLog[0] = rmse[0];
