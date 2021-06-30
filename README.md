@@ -1,5 +1,4 @@
-# SFND_Unscented_Kalman_Filter
-Sensor Fusion UKF Highway Project Starter Code
+# Lidar and Radar Unscented Kalman Filter Vehicle Tracking
 
 <img src="media/ukf_highway_tracked.gif" width="700" height="400" />
 
@@ -13,10 +12,6 @@ The main program can be built and ran by doing the following from the project to
 4. make
 5. ./ukf_highway
 
-Note that the programs that need to be written to accomplish the project are src/ukf.cpp, and src/ukf.h
-
-The program main.cpp has already been filled out, but feel free to modify it.
-
 <img src="media/ukf_highway.png" width="700" height="400" />
 
 `main.cpp` is using `highway.h` to create a straight 3 lane highway environment with 3 traffic cars and the main ego car at the center. 
@@ -25,6 +20,14 @@ other traffic cars are blue. The traffic cars will be accelerating and altering 
 it's own UKF object generated for it, and will update each indidual one during every time step. 
 
 The red spheres above cars represent the (x,y) lidar detection and the purple lines show the radar measurements with the velocity magnitude along the detected angle. The Z axis is not taken into account for tracking, so you are only tracking along the X/Y axis.
+
+## Results 
+
+px, py, vx, vy output coordinates must have an RMSE <= [0.30, 0.16, 0.95, 0.70] after running for longer than 1 second. The simulation collects the position and velocity values that your algorithm outputs and they are compare to the ground truth data. Your px, py, vx, and vy RMSE should be less than or equal to the values [0.30, 0.16, 0.95, 0.70] after the simulator has ran for longer than 1 second. The simulator will also display if RMSE values surpass the threshold.
+
+
+Compare only radar to only lidar to both with plots from python.
+
 
 ---
 
