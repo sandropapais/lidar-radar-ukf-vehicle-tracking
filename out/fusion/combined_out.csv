@@ -1,0 +1,2 @@
+car_ID,time_s,x_est,y_est,v_est,yaw_est,yaw_dot_est,x_var,y_var,v_var,yaw_var,yaw_dot_var,x_tru,y_tru,vx_tru,vy_tru,lid_x_mes,lid_y_mes,rad_x_mes,rad_y_mes,rad_v_mes,lid_nis,rad_nis
+0,0.000000,-9.701270,3.923263,4.430053,0.000000,0.000000,0.018041,0.018254,0.094848,1.000000,1.000000,-9.833333,4.000000,5.000000,0.000000,-9.664914,3.917538,-9.848994,3.943105,-4.535816,NaN,21.983941
